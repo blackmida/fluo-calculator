@@ -23,7 +23,17 @@ import {
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
-import { formatCurrency, formatNumber } from '../utils/formatters';
+import {
+  formatCount,
+  formatCurrency,
+  formatHoursPerDay,
+  formatKilowattHours,
+  formatLumensPerWatt,
+  formatLux,
+  formatPercent,
+  formatWatts,
+  formatYears,
+} from '../utils/formatters';
 import SectionCard from '../components/SectionCard';
 
 function SummaryTile({ title, value, subtitle, tone = 'default' }) {
@@ -117,25 +127,17 @@ export default function RoiSection({
       ? {
           severity: 'success',
           title: `Uštedite ${formatCurrency(roiResults.highlight?.annualSavings ?? 0)} godišnje`,
-          description: `Investicija se vraća za ${formatNumber(
-            roiResults.highlight?.paybackYears,
-            { maximumFractionDigits: 1 },
-          )} godina. Potom: besplatna rasveta.`,
+          description: `Investicija se vraća za ${formatYears(roiResults.highlight?.paybackYears)} godina. Potom: besplatna rasveta.`,
         }
       : roiResults.systemType === 'smart'
         ? {
             severity: 'success',
             title: `Uštedite ${formatCurrency(roiResults.highlight?.annualSavings ?? 0)} godišnje`,
-            description: `Pametna kontrola skida približno ${roiResults.highlight?.reductionPercent ?? 0}% potrošnje, a investicija se vraća za ${formatNumber(
-              roiResults.highlight?.paybackYears,
-              { maximumFractionDigits: 1 },
-            )} godina.`,
+            description: `Pametna kontrola skida približno ${formatPercent(roiResults.highlight?.reductionPercent ?? 0)} potrošnje, a investicija se vraća za ${formatYears(roiResults.highlight?.paybackYears)} godina.`,
           }
         : {
             severity: 'info',
-            title: `Pouzdana rasveta za ${formatNumber(roiResults.highlight?.dailyHours ?? 0, {
-              maximumFractionDigits: 1,
-            })} h/dan`,
+            title: `Pouzdana rasveta za ${formatHoursPerDay(roiResults.highlight?.dailyHours ?? 0)}`,
             description: `Ukupna investicija: ${formatCurrency(roiResults.highlight?.totalInvestment ?? 0)}.`,
           };
 
@@ -334,22 +336,22 @@ export default function RoiSection({
               <Typography variant="body2" color="text.secondary">
                 Nova konfiguracija trenutno predlaže{' '}
                 <Box component="span" fontWeight={800} color="text.primary">
-                  {formatNumber(lightingResults.fixtureCount, { maximumFractionDigits: 0 })}
+                  {formatCount(lightingResults.fixtureCount)}
                 </Box>{' '}
                 svetiljki od{' '}
                 <Box component="span" fontWeight={800} color="text.primary">
-                  {formatNumber(lightingResults.inputs.fixtureW, { maximumFractionDigits: 0 })} W
+                  {formatWatts(lightingResults.inputs.fixtureW)}
                 </Box>
                 .
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Ukupna instalirana snaga je{' '}
                 <Box component="span" fontWeight={800} color="text.primary">
-                  {formatNumber(lightingResults.totalPower, { maximumFractionDigits: 0 })} W
+                  {formatWatts(lightingResults.totalPower)}
                 </Box>
                 , a ciljna osvetljenost{' '}
                 <Box component="span" fontWeight={800} color="text.primary">
-                  {formatNumber(lightingResults.inputs.targetLux, { maximumFractionDigits: 0 })} lux
+                  {formatLux(lightingResults.inputs.targetLux)}
                 </Box>
                 .
               </Typography>
@@ -407,7 +409,7 @@ export default function RoiSection({
                 {roiResults.scenarioALabel}
               </Typography>
               <Typography variant="body2" fontWeight={700} className="mono">
-                {formatNumber(roiResults.consumptionA, { maximumFractionDigits: 0 })} kWh
+                {formatKilowattHours(roiResults.consumptionA)}
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between" gap={2}>
@@ -415,7 +417,7 @@ export default function RoiSection({
                 {roiResults.scenarioBLabel}
               </Typography>
               <Typography variant="body2" fontWeight={700} className="mono">
-                {formatNumber(roiResults.consumptionB, { maximumFractionDigits: 0 })} kWh
+                {formatKilowattHours(roiResults.consumptionB)}
               </Typography>
             </Stack>
             {roiResults.reductionLabel ? (
@@ -431,8 +433,7 @@ export default function RoiSection({
                   {roiResults.reductionLabel.title}
                 </Typography>
                 <Typography variant="body2" color="success.main" fontWeight={800} className="mono">
-                  {formatNumber(roiResults.reductionLabel.value, { maximumFractionDigits: 0 })} kWh
-                  {' '}(-{roiResults.reductionLabel.percent}%)
+                  {formatKilowattHours(roiResults.reductionLabel.value)} (-{formatPercent(roiResults.reductionLabel.percent)})
                 </Typography>
               </Stack>
             ) : null}
@@ -449,7 +450,7 @@ export default function RoiSection({
                 Energija (kWh)
               </Typography>
               <Typography variant="body2" fontWeight={700} color="success.main" className="mono">
-                {formatNumber(roiResults.savingsKWh, { maximumFractionDigits: 0 })} kWh
+                {formatKilowattHours(roiResults.savingsKWh)}
               </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between" gap={2}>
@@ -481,7 +482,7 @@ export default function RoiSection({
           title="Povraćaj investicije"
           value={
             Number.isFinite(roiResults.roi)
-              ? `${formatNumber(roiResults.roi, { maximumFractionDigits: 1 })}`
+              ? formatYears(roiResults.roi)
               : '—'
           }
           subtitle="godina"
@@ -491,7 +492,7 @@ export default function RoiSection({
           title={roiResults.badge?.label ?? 'Procena povraćaja'}
           value={
             roiResults.badge
-              ? `${formatNumber(roiResults.badge.value, { maximumFractionDigits: 1 })} god.`
+              ? `${formatYears(roiResults.badge.value)} god.`
               : '—'
           }
           subtitle={roiResults.badge?.description ?? 'Nije dostupno bez uštede'}
@@ -516,11 +517,9 @@ export default function RoiSection({
             Pametna kontrola može dodatno povećati uštedu
           </Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
-            Očekivano smanjenje potrošnje je oko {roiResults.smartBenefit.potentialReduction}%,
+            Očekivano smanjenje potrošnje je oko {formatPercent(roiResults.smartBenefit.potentialReduction)},
             što donosi približno {formatCurrency(roiResults.smartBenefit.annualSavings)} godišnje.
-            Procena ROI za smart sistem je {formatNumber(roiResults.smartBenefit.roi, {
-              maximumFractionDigits: 1,
-            })} godina.
+            Procena ROI za smart sistem je {formatYears(roiResults.smartBenefit.roi)} godina.
           </Typography>
         </Alert>
       ) : null}
@@ -578,7 +577,7 @@ export default function RoiSection({
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 0.75 }}>
                     Ciljajte 150+ lm/W umesto trenutnih{' '}
-                    {formatNumber(lightingResults.efficiency, { maximumFractionDigits: 0 })} lm/W.
+                    {formatLumensPerWatt(lightingResults.efficiency)}.
                   </Typography>
                   <Typography variant="caption" color="success.main" fontWeight={800} sx={{ mt: 1, display: 'block' }}>
                     15–20% manje snage

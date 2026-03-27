@@ -1,4 +1,4 @@
-import { SPACE_TYPES } from '../constants/data';
+import { SPACE_TYPES } from '../constants/data.js';
 
 function parseNumber(value, fallback = 0) {
   const parsed = typeof value === 'number' ? value : parseFloat(value);
@@ -273,7 +273,8 @@ function calculateNewInstallationRoi(rawInputs, lighting) {
   const newDailyHours = parseNumber(rawInputs.newDailyHours, 10);
   const newElectricityPrice = parseNumber(rawInputs.newElectricityPrice, 0.12);
   const systemType = rawInputs.systemType ?? 'standard';
-  const controlCost = systemType === 'smart' ? parseNumber(rawInputs.controlCost, 500) : 0;
+  const configuredControlCost = parseNumber(rawInputs.controlCost, 500);
+  const controlCost = systemType === 'smart' ? configuredControlCost : 0;
   const smartReduction = systemType === 'smart' ? lighting.inputs.space.smartReduction : 0;
 
   const annualHours = newDailyHours * 365;
@@ -286,7 +287,8 @@ function calculateNewInstallationRoi(rawInputs, lighting) {
 
   const potentialReduction = lighting.inputs.space.smartReduction;
   const smartSavings = baseConsumption * potentialReduction * newElectricityPrice;
-  const smartRoi = smartSavings > 0 ? (totalInvestment + 500) / smartSavings : Infinity;
+  const smartInvestment = (newInstallPrice + newInstallLabor) * lighting.fixtureCount + configuredControlCost;
+  const smartRoi = smartSavings > 0 ? smartInvestment / smartSavings : Infinity;
 
   return {
     mode: 'new',
@@ -341,4 +343,3 @@ export function calculateRoi({ mode, replacementInputs, newInstallationInputs, l
 
   return calculateNewInstallationRoi(newInstallationInputs, lighting);
 }
-

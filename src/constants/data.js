@@ -12,7 +12,7 @@ export const SPACE_TYPES = [
   { value: 'warehouse', label: 'Magacin', lux: 200, smartReduction: 0.4, useCase: 'Magacini' },
   { value: 'retail', label: 'Prodavnica', lux: 400, smartReduction: 0.3, useCase: 'Prodavnice' },
   { value: 'industrial', label: 'Industrijska hala', lux: 500, smartReduction: 0.35, useCase: 'Industrija' },
-  { value: 'classroom', label: 'Učionica', lux: 400, smartReduction: 0.28, useCase: 'Zdravstvo' },
+  { value: 'classroom', label: 'Učionica', lux: 400, smartReduction: 0.28, useCase: 'Obrazovanje' },
   { value: 'parking', label: 'Parking', lux: 125, smartReduction: 0.5, useCase: 'Parking' },
 ];
 
@@ -41,7 +41,7 @@ export const USE_CASES = [
   'Magacini',
   'Prodavnice',
   'Parking',
-  'Zdravstvo',
+  'Obrazovanje',
   'Ugostiteljstvo',
   'Putevi i ulice',
 ];
@@ -111,4 +111,3 @@ export const DEFAULT_NEW_INSTALLATION_INPUTS = {
   newElectricityPrice: '0.12',
   controlCost: '500',
 };
-

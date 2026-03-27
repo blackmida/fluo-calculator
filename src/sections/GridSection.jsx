@@ -3,7 +3,7 @@ import { Box, Paper, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
 import GridPreview from '../components/GridPreview';
-import { formatMeasurement } from '../utils/formatters';
+import { formatMeters } from '../utils/formatters';
 
 export default function GridSection({ lightingResults }) {
   return (
@@ -52,10 +52,10 @@ export default function GridSection({ lightingResults }) {
           </Typography>
           <Box textAlign="center">
             <Typography variant="h1" className="mono" color="primary.main">
-              {lightingResults.spacing.toFixed(2)}
+              {formatMeters(lightingResults.spacing)}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              metar
+              preporučeni razmak
             </Typography>
           </Box>
           <Paper sx={{ p: 2.5, width: '100%', maxWidth: 260, boxShadow: 'none' }}>
@@ -65,7 +65,7 @@ export default function GridSection({ lightingResults }) {
                   Horizontalno
                 </Typography>
                 <Typography variant="body2" fontWeight={700} className="mono">
-                  {formatMeasurement(lightingResults.spacingX, 'm', { maximumFractionDigits: 2 })}
+                  {formatMeters(lightingResults.spacingX)}
                 </Typography>
               </Stack>
               <Stack direction="row" justifyContent="space-between">
@@ -73,7 +73,7 @@ export default function GridSection({ lightingResults }) {
                   Vertikalno
                 </Typography>
                 <Typography variant="body2" fontWeight={700} className="mono">
-                  {formatMeasurement(lightingResults.spacingY, 'm', { maximumFractionDigits: 2 })}
+                  {formatMeters(lightingResults.spacingY)}
                 </Typography>
               </Stack>
             </Stack>
@@ -96,7 +96,7 @@ export default function GridSection({ lightingResults }) {
                   <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'primary.main' }} />
                 </Box>
                 <Typography variant="h2" className="mono" color="primary.main">
-                  {lightingResults.spacingX.toFixed(2)} m
+                  {formatMeters(lightingResults.spacingX)}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Horizontalno
@@ -122,7 +122,7 @@ export default function GridSection({ lightingResults }) {
                   <Box sx={{ width: 12, height: 12, borderRadius: '50%', bgcolor: 'primary.main' }} />
                 </Box>
                 <Typography variant="h2" className="mono" color="primary.main">
-                  {lightingResults.spacingY.toFixed(2)} m
+                  {formatMeters(lightingResults.spacingY)}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
                   Vertikalno

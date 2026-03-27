@@ -23,7 +23,15 @@ import {
   SPACE_TYPES,
   USE_CASES,
 } from '../constants/data';
-import { formatLumens, formatLux, formatMeasurement, formatNumber } from '../utils/formatters';
+import {
+  formatCount,
+  formatLumens,
+  formatLux,
+  formatMeters,
+  formatPowerDensity,
+  formatSquareMeters,
+  formatWatts,
+} from '../utils/formatters';
 import MetricRow from '../components/MetricRow';
 import SectionCard from '../components/SectionCard';
 
@@ -154,9 +162,7 @@ export default function ConfiguratorSection({
 
             <SliderField
               label="Snaga svetiljke"
-              valueLabel={`${formatNumber(lightingResults.inputs.fixtureW, {
-                maximumFractionDigits: 0,
-              })} W`}
+              valueLabel={formatWatts(lightingResults.inputs.fixtureW)}
               value={lightingResults.inputs.fixtureW}
               min={5}
               max={500}
@@ -209,7 +215,7 @@ export default function ConfiguratorSection({
           <Box sx={{ mb: 2.5 }}>
             <MetricRow
               label="Površina"
-              value={formatMeasurement(lightingResults.area, 'm²')}
+              value={formatSquareMeters(lightingResults.area)}
               labelColor="rgba(255,255,255,0.72)"
               valueColor="#ffffff"
               mono
@@ -244,7 +250,7 @@ export default function ConfiguratorSection({
           <Box sx={{ mt: 1.5 }}>
             <MetricRow
               label="Broj svetiljki"
-              value={formatNumber(lightingResults.fixtureCount, { maximumFractionDigits: 0 })}
+              value={formatCount(lightingResults.fixtureCount)}
               labelColor="rgba(255,255,255,0.72)"
               valueColor="#ffffff"
               mono
@@ -265,21 +271,21 @@ export default function ConfiguratorSection({
             />
             <MetricRow
               label="Ukupna snaga"
-              value={`${formatNumber(lightingResults.totalPower, { maximumFractionDigits: 0 })} W`}
+              value={formatWatts(lightingResults.totalPower)}
               labelColor="rgba(255,255,255,0.72)"
               valueColor="#ffffff"
               mono
             />
             <MetricRow
               label="Specifična snaga"
-              value={`${formatNumber(lightingResults.wPerM2, { maximumFractionDigits: 1 })} W/m²`}
+              value={formatPowerDensity(lightingResults.wPerM2)}
               labelColor="rgba(255,255,255,0.72)"
               valueColor="#ffffff"
               mono
             />
             <MetricRow
               label="Razmak svetiljki"
-              value={formatMeasurement(lightingResults.spacing, 'm', { maximumFractionDigits: 2 })}
+              value={formatMeters(lightingResults.spacing)}
               labelColor="rgba(255,255,255,0.72)"
               valueColor="#ffffff"
               mono

@@ -7,7 +7,12 @@ import {
 import { Box, Chip, Paper, Stack, Typography } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 
-import { formatLumens, formatNumber } from '../utils/formatters';
+import {
+  formatCount,
+  formatLumens,
+  formatLumensPerWatt,
+  formatWatts,
+} from '../utils/formatters';
 
 const tierMeta = {
   Ekonomično: {
@@ -95,7 +100,7 @@ export default function SolutionTiersSection({ tiers }) {
                     Svetiljki
                   </Typography>
                   <Typography variant="body2" fontWeight={700} className="mono">
-                    {formatNumber(tier.count, { maximumFractionDigits: 0 })}
+                    {formatCount(tier.count)}
                   </Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" gap={2}>
@@ -111,7 +116,7 @@ export default function SolutionTiersSection({ tiers }) {
                     Snaga/kom
                   </Typography>
                   <Typography variant="body2" fontWeight={700} className="mono">
-                    {formatNumber(tier.w, { maximumFractionDigits: 0 })} W
+                    {formatWatts(tier.w)}
                   </Typography>
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" gap={2}>
@@ -119,7 +124,7 @@ export default function SolutionTiersSection({ tiers }) {
                     Efikasnost
                   </Typography>
                   <Typography variant="body2" fontWeight={700} className="mono">
-                    {formatNumber(tier.efficiency, { maximumFractionDigits: 0 })} lm/W
+                    {formatLumensPerWatt(tier.efficiency)}
                   </Typography>
                 </Stack>
                 <Stack
@@ -134,7 +139,7 @@ export default function SolutionTiersSection({ tiers }) {
                     Ukupna snaga
                   </Typography>
                   <Typography variant="body2" fontWeight={800} className="mono">
-                    {formatNumber(tier.totalPower, { maximumFractionDigits: 0 })} W
+                    {formatWatts(tier.totalPower)}
                   </Typography>
                 </Stack>
               </Stack>
